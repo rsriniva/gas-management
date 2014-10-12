@@ -88,4 +88,9 @@ public class GasAlert implements Serializable {
         this.type = type;
     }
 
+    @Override
+    public String toString() {
+        return "GasAlert{" + "id=" + id + ", date=" + date + ", type=" + type + '}';
+    }
+    
 }

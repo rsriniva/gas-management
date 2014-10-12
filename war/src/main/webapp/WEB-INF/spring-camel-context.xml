@@ -15,8 +15,19 @@
 
     <camelContext xmlns="http://camel.apache.org/schema/spring">
         
+        <endpoint id="server" 
+                  uri="netty:tcp://0.0.0.0:9999?sync=false&amp;backlog=1000&amp;workerCount=10&amp;textline=true&amp;delimiter=LINE&amp;encoding=ISO-8859-1" />
+    
+        <route id="GasAlert">
+            <from ref="server" />
+            <log message="メッセージ: ${body}" />
+            <bean ref="GasAlertTransformer" method="toModel" /> 
+            <log message="モデル: ${body}" />
+        </route>
         
     </camelContext>
 
+    <bean id="GasAlertTransformer" class="com.buildria.camel.gasmanagement.core.transformer.GasAlertTransformer" />
+    
 </beans>
 
