@@ -5,14 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent> 
-        <groupId>com.buildria.camel.gusmanagement</groupId>
-        <artifactId>gusmanagement-pom</artifactId>
+        <groupId>com.buildria.camel.gasmanagement</groupId>
+        <artifactId>gasmanagement-pom</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>gusmanagement-war</artifactId>
+    <artifactId>gasmanagement-war</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>Gus Management System :: WAR</name>
+    <name>Gas Management System :: WAR</name>
     <packaging>war</packaging>
         
     <properties>
