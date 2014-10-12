@@ -27,7 +27,7 @@
         
     </camelContext>
 
-    <bean id="GasAlertTransformer" class="com.buildria.camel.gasmanagement.core.transformer.GasAlertTransformer" />
+    <bean id="GasAlertTransformer" class="com.buildria.camel.gasmanagement.core.model.GasAlert" />
     
 </beans>
 

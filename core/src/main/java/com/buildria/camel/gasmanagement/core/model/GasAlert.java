@@ -1,23 +1,19 @@
 package com.buildria.camel.gasmanagement.core.model;
 
+import com.buildria.camel.gasmanagement.core.transformer.TransformException;
+import com.buildria.camel.gasmanagement.core.transformer.Transformer;
 import java.io.Serializable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * アラートモデル
  *
  * @author sogabe
  */
-public class GasAlert implements Serializable {
+public class GasAlert implements Transformer<GasAlert>, Serializable {
 
-    /**
-     * 発生年月日時分秒の長さ。
-     */
-    public static final int DATE_LENGTH = 19;
-    
-    /**
-     * 種別の長さ。
-     */
-    public static final int TYPE_LENGTH = 2;
+    private static final Logger LOG = LoggerFactory.getLogger(GasAlert.class);
     
     /**
      * ID
@@ -91,6 +87,33 @@ public class GasAlert implements Serializable {
     @Override
     public String toString() {
         return "GasAlert{" + "id=" + id + ", date=" + date + ", type=" + type + '}';
+    }
+    
+    @Override
+    public String toMessage(GasAlert model) throws TransformException {
+        if (model == null) {
+            throw new IllegalArgumentException("モデル未設定");
+        }
+
+        StringBuilder msg = new StringBuilder();
+        msg.append(model.getDate());
+        msg.append(model.getType());
+
+        return msg.toString();
+    }
+
+    @Override
+    public GasAlert toModel(String message) throws TransformException {
+        if (message == null) {
+            throw new IllegalArgumentException("メッセージ未設定");
+        }
+        LOG.debug("メッセージ: [{}] サイズ: [{}]", new Object[] { message, message.length() });
+        
+        GasAlert model = new GasAlert();
+        model.setDate(message.substring(0, 19));
+        model.setType(message.substring(19, 21));
+
+        return model;
     }
     
 }
