@@ -53,6 +53,13 @@
     <dependencyManagement>
         
         <dependencies>
+            
+            <dependency>
+                <groupId>com.buildria.camel.gasmanagement</groupId>
+                <artifactId>gasmanagement-core</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            
             <!--  Camel Dependencies  -->
             <dependency>
                 <groupId>org.apache.camel</groupId>
