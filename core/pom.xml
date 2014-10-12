@@ -13,7 +13,7 @@
     <artifactId>gusmanagement-core</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>Gus Management System :: CORE</name>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
         
     <properties>
         <maven.compiler.source>1.7</maven.compiler.source>
