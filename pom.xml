@@ -26,6 +26,7 @@
     <modules>
         <module>war</module>
         <module>core</module>
+        <module>client</module>
     </modules>
     
     <build>
