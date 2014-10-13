@@ -61,7 +61,7 @@ public class GasClient {
 
     private static class GasDataSet extends DataSetSupport {
 
-        private static final String DATEFORMAT = "yyyy-MM-dd HH:mm:ss";
+        private static final String DATEFORMAT = "yyyy/MM/dd HH:mm:ss";
         
         public GasDataSet(int size) {
             super(size);

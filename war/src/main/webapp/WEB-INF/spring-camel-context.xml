@@ -34,9 +34,8 @@
         
         <route id="GasAlert_Delivery">
             <from uri="mybatis:selectAll?delay=1000&amp;consumer.useIterator=false" />
-            <log message="DBデータ: ${body}" />
             <marshal ref="gson" />
-            <log message="JSON: ${body}" />
+            <to uri="websocket:gasalert?sendToAll=true" />
         </route>
         
     </camelContext>
@@ -60,6 +59,11 @@
     <bean id="mybatis" class="org.apache.camel.component.mybatis.MyBatisComponent">
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>    
+    
+    <bean id="websocket" class="org.apache.camel.component.websocket.WebsocketComponent">
+        <property name="port" value="9998" />
+        <property name="staticResources" value="classpath:." />
+    </bean>
     
 </beans>
 
