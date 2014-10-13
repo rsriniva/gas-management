@@ -17,6 +17,10 @@
         
         <endpoint id="server" 
                   uri="netty:tcp://0.0.0.0:9999?sync=false&amp;backlog=1000&amp;workerCount=10&amp;textline=true&amp;delimiter=LINE&amp;encoding=ISO-8859-1" />
+
+                  <dataFormats>
+            <json id="gson" library="Gson" />
+        </dataFormats>
                   
         <!-- ガス圧受信し、DBに書き込む -->
         <route id="GasAlert_Receive">
@@ -31,6 +35,8 @@
         <route id="GasAlert_Delivery">
             <from uri="mybatis:selectAll?delay=1000&amp;consumer.useIterator=false" />
             <log message="DBデータ: ${body}" />
+            <marshal ref="gson" />
+            <log message="JSON: ${body}" />
         </route>
         
     </camelContext>
