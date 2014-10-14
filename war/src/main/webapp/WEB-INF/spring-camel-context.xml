@@ -15,51 +15,68 @@
 
     <camelContext xmlns="http://camel.apache.org/schema/spring">
         
+        <!-- Nettyコンシューマのエンドポイント -->
         <endpoint id="server" 
                   uri="netty:tcp://0.0.0.0:9999?sync=false&amp;backlog=1000&amp;workerCount=10&amp;textline=true&amp;delimiter=LINE&amp;encoding=ISO-8859-1" />
 
-                  <dataFormats>
+　　　　<!-- JSON変換 変換の実装はGsonを使用 -->
+        <dataFormats>
             <json id="gson" library="Gson" />
         </dataFormats>
                   
         <!-- ガス圧受信し、DBに書き込む -->
         <route id="GasAlert_Receive">
+            <!-- クライアントから電文を受信 -->
             <from ref="server" />
             <log loggingLevel="INFO" logName="com.buildria.camel.gasmanagement" message="メッセージ: ${body}" />
+            <!-- 受信した文字列をオブジェクトに変換 -->    
             <bean ref="GasAlertTransformer" method="toModel" /> 
             <log loggingLevel="DEBUG" message="モデル: ${body}" />
             <transacted ref="PROPAGATION_REQUIRED"/>
+            <!-- DBに書き込む -->
             <to uri="mybatis:insert?statementType=Insert"/>
         </route>
         
+        <!-- DBに書き込まれたデータを取得し、JSONの変換後、WebSocketに送信 -->
         <route id="GasAlert_Delivery">
+            <!-- DBのデータを取得 -->
             <from uri="mybatis:selectAll?delay=1000&amp;consumer.useIterator=false" />
+            <!-- オブジェクトをJSON形式に変換 -->
             <marshal ref="gson" />
+            <!-- WebSocketに送信 -->
             <to uri="websocket:gasalert?sendToAll=true" />
         </route>
         
     </camelContext>
 
+    <!-- 電文のモデル --> 
     <bean id="GasAlertTransformer" class="com.buildria.camel.gasmanagement.core.model.GasAlert" />
 
+    <!-- トランザクションマネージャ -->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
     </bean>
     
+    <!-- トランザクションの振る舞いを設定 -->
     <bean id="PROPAGATION_REQUIRED" class="org.apache.camel.spring.spi.SpringTransactionPolicy">
         <property name="transactionManager" ref="transactionManager"/>
         <property name="propagationBehaviorName" value="PROPAGATION_REQUIRED"/>
     </bean>
     
+    <!-- MyBatisのSqlSessionFactory -->
+    <!-- MyBatisで使用する設定ファイルを指定 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="configLocation" value="classpath:data/SqlMapConfig.xml"/>
     </bean>
     
+    <!-- MyBatisのコンポーネント -->
     <bean id="mybatis" class="org.apache.camel.component.mybatis.MyBatisComponent">
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>    
     
+    <!-- WebSocketの設定 -->
+    <!-- ポート番号と、公開するHTMLの位置を設定 -->
     <bean id="websocket" class="org.apache.camel.component.websocket.WebsocketComponent">
         <property name="port" value="9998" />
         <property name="staticResources" value="classpath:." />
