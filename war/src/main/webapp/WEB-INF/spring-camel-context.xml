@@ -25,9 +25,9 @@
         <!-- ガス圧受信し、DBに書き込む -->
         <route id="GasAlert_Receive">
             <from ref="server" />
-            <log message="メッセージ: ${body}" />
+            <log loggingLevel="INFO" logName="com.buildria.camel.gasmanagement" message="メッセージ: ${body}" />
             <bean ref="GasAlertTransformer" method="toModel" /> 
-            <log message="モデル: ${body}" />
+            <log loggingLevel="DEBUG" message="モデル: ${body}" />
             <transacted ref="PROPAGATION_REQUIRED"/>
             <to uri="mybatis:insert?statementType=Insert"/>
         </route>
