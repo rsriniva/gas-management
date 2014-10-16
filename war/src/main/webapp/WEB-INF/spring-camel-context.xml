@@ -19,7 +19,7 @@
         <endpoint id="server" 
                   uri="netty:tcp://0.0.0.0:9999?sync=false&amp;backlog=1000&amp;workerCount=10&amp;textline=true&amp;delimiter=LINE&amp;encoding=ISO-8859-1" />
 
-　　　　<!-- JSON変換 変換の実装はGsonを使用 -->
+        <!-- JSON変換 変換の実装はGsonを使用 -->
         <dataFormats>
             <json id="gson" library="Gson" />
         </dataFormats>
@@ -46,7 +46,6 @@
             <!-- WebSocketに送信 -->
             <to uri="websocket:gasalert?sendToAll=true" />
         </route>
-        
     </camelContext>
 
     <!-- 電文のモデル --> 
