@@ -217,5 +217,11 @@
         </dependencies>
     </dependencyManagement>
         
+    <pluginRepositories>
+        <pluginRepository>
+            <id>bacons.ddo.jp repository</id>
+            <url>http://bacons.ddo.jp/maven2/</url>
+        </pluginRepository>
+    </pluginRepositories>        
 
 </project>
