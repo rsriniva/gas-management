@@ -1,5 +1,6 @@
 CREATE TABLE gasalert (
   id INT PRIMARY KEY AUTO_INCREMENT,
   date VARCHAR(19) NOT NULL,
-  type VARCHAR(2) NOT NULL
+  type VARCHAR(2) NOT NULL,
+  tension int NOT NULL
 );

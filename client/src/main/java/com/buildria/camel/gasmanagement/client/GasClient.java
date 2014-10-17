@@ -66,6 +66,8 @@ public class GasClient {
         private static final String DATEFORMAT = "yyyy/MM/dd HH:mm:ss";
         
         private static final int TYPE_MAX = 99;
+
+        private static final int TENSION_MAX = 999;
         
         public GasDataSet(int size) {
             super(size);
@@ -82,7 +84,9 @@ public class GasClient {
             Random rand = new Random(System.currentTimeMillis());
             String type = String.format("%02d", rand.nextInt(TYPE_MAX));
             
-            return new GasAlert(id, dateValue, type);
+            int tension = rand.nextInt(TENSION_MAX);
+            
+            return new GasAlert(id, dateValue, type, tension);
         }
         
     }

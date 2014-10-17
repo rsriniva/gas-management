@@ -58,6 +58,7 @@
                         $('<td />').text(msg.id).appendTo(tr);
                         $('<td />').text(msg.date).appendTo(tr);
                         $('<td />').text(msg.type).appendTo(tr);
+                        $('<td />').text(msg.tension).appendTo(tr);
                         $(tr).appendTo('#alertlist');
                         tr = null;
                     }
@@ -138,6 +139,7 @@
                             <th>No.</th>
                             <th>年月日</th>
                             <th>種別</th>
+                            <th>ガス圧(Pa)</th>
                         </tr>
                     </thead>
                     <tbody id="alertlist"></tbody>

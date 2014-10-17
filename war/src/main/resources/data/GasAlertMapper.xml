@@ -4,11 +4,11 @@
 <mapper namespace="com.buildria.camel.gasmanagement.mappers">
  
     <select id="selectAll" resultType="com.buildria.camel.gasmanagement.core.model.GasAlert">
-        SELECT id, date, type FROM gasalert ORDER BY id DESC
+        SELECT id, date, type, tension FROM gasalert ORDER BY id DESC
     </select>
     
     <insert id="insert" parameterType="com.buildria.camel.gasmanagement.core.model.GasAlert">
-        INSERT INTO gasalert (date, type) VALUES (#{date}, #{type})
+        INSERT INTO gasalert (date, type, tension) VALUES (#{date}, #{type}, #{tension})
     </insert>
     
 </mapper>
