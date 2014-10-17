@@ -5,9 +5,10 @@ package com.buildria.camel.gasmanagement.core.transformer;
  * 
  * @author sogabe
  */
-public class TransformException extends Exception {
+public final class TransformException extends Exception {
 
     public TransformException() {
+        super();
     }
 
     public TransformException(String message) {

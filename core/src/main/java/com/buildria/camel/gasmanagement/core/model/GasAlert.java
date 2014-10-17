@@ -21,7 +21,7 @@ public class GasAlert implements Transformer<GasAlert>, Serializable {
     private String id;
 
     /**
-     * 発生年月日時分秒(yyyy-MM-dd HH:mm:ss) 19桁
+     * 発生年月日時分秒(yyyy/MM/dd HH:mm:ss) 19桁
      */
     private String date;
 

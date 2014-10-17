@@ -12,6 +12,8 @@ public class GasClient {
 
     private static final int DEFAULT_PORT = 9999;
 
+    private static final int DATA_MAX = 1000;
+    
     private final int port;
 
     public static void main(String[] args) throws Exception {
@@ -34,7 +36,7 @@ public class GasClient {
         Main main = new Main();
         main.enableHangupSupport();
 
-        GasDataSet gasDateSet = new GasDataSet(1000);
+        GasDataSet gasDateSet = new GasDataSet(DATA_MAX);
         main.bind("gasDataSet", gasDateSet);
         GasAlert gasAlert = new GasAlert();
         main.bind("gasAlert", gasAlert);
@@ -63,6 +65,8 @@ public class GasClient {
 
         private static final String DATEFORMAT = "yyyy/MM/dd HH:mm:ss";
         
+        private static final int TYPE_MAX = 99;
+        
         public GasDataSet(int size) {
             super(size);
         }
@@ -76,7 +80,7 @@ public class GasClient {
             String dateValue = sdf.format(date);
             
             Random rand = new Random(System.currentTimeMillis());
-            String type = String.format("%02d", rand.nextInt(99));
+            String type = String.format("%02d", rand.nextInt(TYPE_MAX));
             
             return new GasAlert(id, dateValue, type);
         }
