@@ -48,7 +48,6 @@
                     $('#message').text('接続しました (' + new Date().toLocaleString() + ')');
                 };
                 ws.onmessage = function (e) {
-                    $('#alertlist').empty();
                     var msgs = $.parseJSON(e.data);
                     var len = msgs.length;
                     $('#message').text(len + '件受信しました (' + new Date().toLocaleString() + ')');
@@ -62,7 +61,7 @@
                         $('<td />').text(msg.date).appendTo(tr);
                         $('<td />').text(msg.type).appendTo(tr);
                         $('<td />').text(msg.tension).appendTo(tr);
-                        $(tr).appendTo('#alertlist');
+                        $(tr).prependTo('#alertlist');
                         tr = null;
                     }
                 };

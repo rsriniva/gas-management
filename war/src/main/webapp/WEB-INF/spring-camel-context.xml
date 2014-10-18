@@ -41,10 +41,21 @@
         <route id="GasAlert_Delivery">
             <!-- DBのデータを取得 -->
             <from uri="mybatis:selectAll?delay=1000&amp;consumer.useIterator=false" />
+            <!--ヘッダに退避 -->
+            <setHeader headerName="gasmanagement.data">
+                <simple>$simple{body}</simple>
+            </setHeader>
             <!-- オブジェクトをJSON形式に変換 -->
             <marshal ref="gson" />
             <!-- WebSocketに送信 -->
             <to uri="websocket:gasalert?sendToAll=true" />
+            <!-- 対比したデータをBODYに戻す -->
+            <setBody>
+                <simple>$simple{header.gasmanagement.data}</simple>
+            </setBody>
+            <transacted ref="PROPAGATION_REQUIRED"/>
+            <!-- 送信したデータを削除 -->
+            <to uri="mybatis:delete?statementType=Delete" />
         </route>
     </camelContext>
 

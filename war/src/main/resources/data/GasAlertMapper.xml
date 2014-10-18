@@ -11,4 +11,8 @@
         INSERT INTO gasalert (date, type, tension) VALUES (#{date}, #{type}, #{tension})
     </insert>
     
+    <delete id="delete" parameterType="com.buildria.camel.gasmanagement.core.model.GasAlert">
+        DELETE FROM gasalert WHERE id=#{id}
+    </delete>
+    
 </mapper>
