@@ -62,6 +62,9 @@
                         tr = null;
                     }
                 };
+                ws.onclose = function () {
+                    $('#message').text('切断しました (' + new Date().toLocaleString() + ')');
+                };
             });
         </script>
     </head>
