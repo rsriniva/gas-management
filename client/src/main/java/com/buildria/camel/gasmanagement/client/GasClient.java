@@ -1,6 +1,7 @@
 package com.buildria.camel.gasmanagement.client;
 
 import com.buildria.camel.gasmanagement.core.model.GasAlert;
+import com.buildria.camel.gasmanagement.core.transformer.GasAlertTransformer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
@@ -38,8 +39,8 @@ public class GasClient {
 
         GasDataSet gasDateSet = new GasDataSet(DATA_MAX);
         main.bind("gasDataSet", gasDateSet);
-        GasAlert gasAlert = new GasAlert();
-        main.bind("gasAlert", gasAlert);
+        GasAlertTransformer gasAlertTransformer = new GasAlertTransformer();
+        main.bind("gasAlertTransformer", gasAlertTransformer);
         
         main.addRouteBuilder(new MyRouteBuilder(port));
         main.run();
@@ -55,7 +56,7 @@ public class GasClient {
         
         @Override
         public void configure() throws Exception {
-            from("dataset:gasDataSet?produceDelay=5000").beanRef("gasAlert", "toMessage").log("$simple{body}")
+            from("dataset:gasDataSet?produceDelay=5000").beanRef("gasAlertTransformer", "toMessage").log("$simple{body}")
                     .to("netty:tcp://127.0.0.1:" + port + "?sync=false&textline=true&delimiter=LINE&encoding=ISO-8859-1");
         }
 
