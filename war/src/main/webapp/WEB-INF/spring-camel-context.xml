@@ -40,7 +40,7 @@
         <!-- DBに書き込まれたデータを取得し、JSONの変換後、WebSocketに送信 -->
         <route id="GasAlert_Delivery">
             <!-- DBのデータを取得 -->
-            <from uri="mybatis:selectAll?delay=1000&amp;consumer.useIterator=false" />
+            <from uri="mybatis:selectAll?delay=5000&amp;consumer.useIterator=false" />
             <!--ヘッダに退避 -->
             <setHeader headerName="gasmanagement.data">
                 <simple>$simple{body}</simple>
@@ -60,7 +60,7 @@
     </camelContext>
 
     <!-- 電文のモデル --> 
-    <bean id="GasAlertTransformer" class="com.buildria.camel.gasmanagement.core.model.GasAlert" />
+    <bean id="GasAlertTransformer" class="com.buildria.camel.gasmanagement.core.transformer.GasAlertTransformer" />
 
     <!-- トランザクションマネージャ -->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
