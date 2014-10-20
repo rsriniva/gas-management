@@ -4,15 +4,20 @@
 <mapper namespace="com.buildria.camel.gasmanagement.mappers">
  
     <select id="selectAll" resultType="com.buildria.camel.gasmanagement.core.model.GasAlert">
-        SELECT id, date, type, tension FROM gasalert ORDER BY id DESC
+        SELECT id, date, type, tension FROM gasalert ORDER BY id
     </select>
     
     <insert id="insert" parameterType="com.buildria.camel.gasmanagement.core.model.GasAlert">
         INSERT INTO gasalert (date, type, tension) VALUES (#{date}, #{type}, #{tension})
     </insert>
     
-    <delete id="delete" parameterType="com.buildria.camel.gasmanagement.core.model.GasAlert">
-        DELETE FROM gasalert WHERE id=#{id}
+    <delete id="delete" parameterType="java.util.List">
+        DELETE FROM gasalert 
+        WHERE 
+        id IN
+        <foreach item="GasAlert" collection="list" open="(" close=")" separator=",">
+            #{GasAlert.id}
+        </foreach>
     </delete>
     
 </mapper>
