@@ -17,7 +17,7 @@
         
         <!-- Nettyコンシューマのエンドポイント -->
         <endpoint id="server" 
-                  uri="netty:tcp://0.0.0.0:9999?sync=false&amp;backlog=1000&amp;workerCount=10&amp;textline=true&amp;delimiter=LINE&amp;encoding=ISO-8859-1" />
+                  uri="netty:tcp://127.0.0.1:9999?sync=false&amp;backlog=1000&amp;workerCount=10&amp;textline=true&amp;delimiter=LINE&amp;encoding=ISO-8859-1" />
 
         <!-- JSON変換 変換の実装はGsonを使用 -->
         <dataFormats>
@@ -28,12 +28,13 @@
         <route id="GasAlert_Receive">
             <!-- クライアントから電文を受信 -->
             <from ref="server" />
-            <log loggingLevel="INFO" logName="com.buildria.camel.gasmanagement" message="メッセージ: ${body}" />
+            <log loggingLevel="INFO" logName="com.buildria.camel.gasmanagement" message="Message received: ${body}" />
             <!-- 受信した文字列をオブジェクトに変換 -->    
             <bean ref="GasAlertTransformer" method="toModel" /> 
             <log loggingLevel="DEBUG" message="モデル: ${body}" />
             <transacted ref="PROPAGATION_REQUIRED"/>
             <!-- DBに書き込む -->
+            <log loggingLevel="INFO" logName="com.buildria.camel.gasmanagement" message="Inserting into database: ${body}" />
             <to uri="mybatis:insert?statementType=Insert"/>
         </route>
         
@@ -41,12 +42,14 @@
         <route id="GasAlert_Delivery">
             <!-- DBのデータを取得 -->
             <from uri="mybatis:selectAll?delay=5000&amp;consumer.useIterator=false" />
+            <log loggingLevel="INFO" logName="com.buildria.camel.gasmanagement" message="Fetched from database: ${body}" />
             <transacted ref="PROPAGATION_REQUIRED"/>
             <!-- 送信したデータを削除 -->
             <to uri="mybatis:delete?statementType=DeleteList" />            
             <!-- オブジェクトをJSON形式に変換 -->
             <marshal ref="gson" />
             <!-- WebSocketに送信 -->
+            <log loggingLevel="INFO" logName="com.buildria.camel.gasmanagement" message="Sending to WebSocket: ${body}" />
             <to uri="websocket:gasalert?sendToAll=true" />
         </route>
     </camelContext>
